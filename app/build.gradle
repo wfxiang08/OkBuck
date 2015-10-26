@@ -3,6 +3,7 @@ import static org.apache.tools.ant.taskdefs.condition.Os.isFamily
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
 
 def keyConfigPath
 if (isFamily(FAMILY_WINDOWS)) {
@@ -24,6 +25,11 @@ android {
     defaultConfig {
         buildConfigField "boolean", "CAN_JUMP", "true"
         buildConfigField "boolean", "XLOG_ENABLED", "true"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     signingConfigs {
@@ -59,7 +65,7 @@ android {
             signingConfig signingConfigs.release
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -67,6 +73,10 @@ android {
 
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
+    lintOptions {
+        abortOnError false
     }
 }
 

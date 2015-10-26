@@ -26,6 +26,7 @@ package com.github.piasy.okbuck.example.dummylibrary;
 
 import android.content.Context;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Piasy{github.com/Piasy} on 15/10/4.
@@ -40,6 +41,7 @@ public class DummyAndroidClass {
     }
 
     private static class DummyObject {
+        @SerializedName("lang")
         private String lang;
     }
 }

@@ -1,0 +1,9 @@
+[alias]
+	app = //app:bin
+	anotherapp = //anotherapp:bin
+
+[android]
+	target = android-23
+
+[project]
+	ignore = .git, **/.svn,

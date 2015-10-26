@@ -25,14 +25,27 @@
 package com.github.piasy.okbuck.example.javalib;
 
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 
 public class DummyJavaClass {
     public String getJavaWord() {
-        String mock = "{\"lang\":\"Java\"}";
+        final String mock = "{\"lang\":\"Java\"}";
+        //final String mock2 = "Mock string from DummyJavaClass";
+        //new Thread(() -> System.out.println(mock2 + " 1")).start();
+        //dummyCall(System.out::println, mock2 + " 2");
         return new GsonBuilder().create().fromJson(mock, DummyObject.class).lang;
     }
 
+    private void dummyCall(DummyInterface dummyInterface, String val) {
+        dummyInterface.call(val);
+    }
+
     private static class DummyObject {
+        @SerializedName("lang")
         private String lang;
+    }
+
+    public interface DummyInterface {
+        void call(String v);
     }
 }

@@ -1,7 +1,5 @@
 .gradle
 /local.properties
-/.idea/workspace.xml
-/.idea/libraries
 .DS_Store
 /build
 /captures
@@ -12,5 +10,5 @@ buck-out/
 .buckd/
 
 .okbuck
-.buckconfig
-**/BUCK
+#.buckconfig
+#**/BUCK

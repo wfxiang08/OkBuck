@@ -1,0 +1,29 @@
+java_library(
+	name = 'src',
+	srcs = glob([
+		'src/main/java/**/*.java',
+	]),
+	annotation_processors = [
+		'dagger.internal.codegen.ComponentProcessor',
+	],
+	annotation_processor_deps = [
+		'//.okbuck/annotation_processor_deps/libraries/javalibrary:all_jars',
+	],
+	deps = [
+		'//.okbuck/libraries/javalibrary:jar__gson-2.3.1.jar',
+		'//.okbuck/libraries/javalibrary:jar__dagger-2.0.1.jar',
+		'//.okbuck/libraries/javalibrary:jar__javax.inject-1.jar',
+		'//.okbuck/libraries/javalibrary:jar__javax.annotation-10.0-b28.jar',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+project_config(
+	src_target = '//libraries/javalibrary:src',
+	src_roots = [
+		'src/main/java',
+	],
+)
+

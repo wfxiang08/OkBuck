@@ -1,0 +1,87 @@
+android_resource(
+	name = 'res',
+	res = 'src/main/res',
+	package = 'com.github.piasy.okbuck.example.anotherapp',
+	deps = [
+		'//.okbuck/common_deps/_libraries_emptylibrary__app__libraries_common__anotherapp__dummylibrary_:aar__appcompat-v7-23.0.1.aar',
+		'//.okbuck/common_deps/_libraries_emptylibrary__app__libraries_common__anotherapp__dummylibrary_:aar__support-v4-23.0.1.aar',
+		'//libraries/common:res',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_build_config(
+	name = 'build_config',
+	package = 'com.github.piasy.okbuck.example.anotherapp',
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_library(
+	name = 'src',
+	srcs = glob([
+		'src/main/java/**/*.java',
+	]),
+	annotation_processors = [
+	],
+	annotation_processor_deps = [
+		'//.okbuck/annotation_processor_deps/anotherapp:all_jars',
+		'//.okbuck/annotation_processor_deps/anotherapp:all_aars',
+	],
+	deps = [
+		':build_config',
+		':res',
+		'//libraries/javalibrary:src',
+		'//.okbuck/libraries/javalibrary:jar__javax.annotation-10.0-b28.jar',
+		'//.okbuck/libraries/javalibrary:jar__dagger-2.0.1.jar',
+		'//.okbuck/common_deps/_libraries_emptylibrary__app__libraries_common__anotherapp__dummylibrary_:jar__support-annotations-23.0.1.jar',
+		'//libraries/emptylibrary:src',
+		'//.okbuck/libraries/javalibrary:jar__gson-2.3.1.jar',
+		'//.okbuck/common_deps/_libraries_emptylibrary__app__libraries_common__anotherapp__dummylibrary_:aar__appcompat-v7-23.0.1.aar',
+		'//.okbuck/libraries/javalibrary:jar__javax.inject-1.jar',
+		'//.okbuck/common_deps/_libraries_emptylibrary__app__libraries_common__anotherapp__dummylibrary_:aar__support-v4-23.0.1.aar',
+		'//libraries/common:src',
+		'//libraries/common:res',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+project_config(
+	src_target = '//anotherapp:src',
+	src_roots = [
+		'src/main/java',
+	],
+)
+
+android_manifest(
+	name = 'manifest',
+	skeleton = 'src/main/AndroidManifest.xml',
+	deps = [
+		'//libraries/emptylibrary:src',
+		'//.okbuck/common_deps/_libraries_emptylibrary__app__libraries_common__anotherapp__dummylibrary_:aar__appcompat-v7-23.0.1.aar',
+		'//.okbuck/common_deps/_libraries_emptylibrary__app__libraries_common__anotherapp__dummylibrary_:aar__support-v4-23.0.1.aar',
+		'//libraries/common:src',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_binary(
+	name = 'bin',
+	manifest = ':manifest',
+	keystore = '//.okbuck/keystore/anotherapp:key_store',
+	deps = [
+		':res',
+		':src',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
