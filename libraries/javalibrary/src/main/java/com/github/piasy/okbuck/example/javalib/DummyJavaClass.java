@@ -30,9 +30,9 @@ import com.google.gson.annotations.SerializedName;
 public class DummyJavaClass {
     public String getJavaWord() {
         final String mock = "{\"lang\":\"Java\"}";
-        //final String mock2 = "Mock string from DummyJavaClass";
-        //new Thread(() -> System.out.println(mock2 + " 1")).start();
-        //dummyCall(System.out::println, mock2 + " 2");
+        final String mock2 = "Mock string from DummyJavaClass";
+        new Thread(() -> System.out.println(mock2 + " 1")).start();
+        dummyCall(System.out::println, mock2 + " 2");
         return new GsonBuilder().create().fromJson(mock, DummyObject.class).lang;
     }
 

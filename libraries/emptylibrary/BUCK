@@ -20,9 +20,9 @@ android_library(
 	],
 	deps = [
 		':build_config',
-		'//.okbuck/common_deps/_libraries_common__anotherapp__dummylibrary__libraries_emptylibrary__app_:aar__appcompat-v7-23.0.1.aar',
-		'//.okbuck/common_deps/_libraries_common__anotherapp__dummylibrary__libraries_emptylibrary__app_:aar__support-v4-23.0.1.aar',
-		'//.okbuck/common_deps/_libraries_common__anotherapp__dummylibrary__libraries_emptylibrary__app_:jar__support-annotations-23.0.1.jar',
+		'//.okbuck/common_deps/_app__libraries_common__libraries_emptylibrary__dummylibrary__anotherapp_:jar__support-annotations-23.0.1.jar',
+		'//.okbuck/common_deps/_app__libraries_common__libraries_emptylibrary__dummylibrary__anotherapp_:aar__support-v4-23.0.1.aar',
+		'//.okbuck/common_deps/_app__libraries_common__libraries_emptylibrary__dummylibrary__anotherapp_:aar__appcompat-v7-23.0.1.aar',
 	],
 	visibility = [
 		'PUBLIC',

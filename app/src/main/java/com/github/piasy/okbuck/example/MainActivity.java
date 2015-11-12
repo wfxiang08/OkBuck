@@ -46,18 +46,18 @@ public class MainActivity extends AppCompatActivity {
         // using explicit reference to cross module R reference:
         int id = android.support.design.R.string.appbar_scrolling_view_behavior;
 
-        //if (BuildConfig.CAN_JUMP) {
-        //    mTextView.setOnClickListener(v -> {
-        //        //startActivity(new Intent(MainActivity.this, CollapsingAppBarActivity.class));
-        //        startActivity(new Intent(MainActivity.this, DummyActivity.class));
-        //    });
-        //}
+        if (BuildConfig.CAN_JUMP) {
+            mTextView.setOnClickListener(v -> {
+                //startActivity(new Intent(MainActivity.this, CollapsingAppBarActivity.class));
+                startActivity(new Intent(MainActivity.this, DummyActivity.class));
+            });
+        }
 
         Log.d("test", "1 + 2 = " + new Calc(new CalcMonitor()).add(1, 2));
 
-        //String mock = "Mock string from MainActivity";
-        //new Thread(() -> System.out.println(mock + " 1")).start();
-        //dummyCall(System.out::println, mock + " 2");
+        String mock = "Mock string from MainActivity";
+        new Thread(() -> System.out.println(mock + " 1")).start();
+        dummyCall(System.out::println, mock + " 2");
     }
 
     private void bind() {

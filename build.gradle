@@ -24,7 +24,7 @@ apply plugin: 'com.github.piasy.okbuck-gradle-plugin'
 
 okbuck {
     target "android-23"
-    overwrite true
+    overwrite false
     keystoreDir ".okbuck/keystore"
     signConfigName "release"
     resPackages = [
