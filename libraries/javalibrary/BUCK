@@ -10,9 +10,9 @@ java_library(
 		'//.okbuck/annotation_processor_deps/libraries/javalibrary:all_jars',
 	],
 	deps = [
+		'//.okbuck/libraries/javalibrary:jar__gson-2.3.1.jar',
 		'//.okbuck/libraries/javalibrary:jar__dagger-2.0.1.jar',
 		'//.okbuck/libraries/javalibrary:jar__javax.inject-1.jar',
-		'//.okbuck/libraries/javalibrary:jar__gson-2.3.1.jar',
 		'//.okbuck/libraries/javalibrary:jar__javax.annotation-10.0-b28.jar',
 	],
 	visibility = [

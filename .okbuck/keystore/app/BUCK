@@ -1,0 +1,9 @@
+keystore(
+	name = 'key_store',
+	store = 'app.keystore',
+	properties = 'app.keystore.properties',
+	visibility = [
+		'PUBLIC',
+	],
+)
+
