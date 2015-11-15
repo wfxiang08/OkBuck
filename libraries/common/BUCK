@@ -3,8 +3,8 @@ android_resource(
 	res = 'src/main/res',
 	package = 'com.github.piasy.okbuck.example.common',
 	deps = [
-		'//.okbuck/common_deps/_app__libraries_common__libraries_emptylibrary__dummylibrary__anotherapp_:aar__support-v4-23.0.1.aar',
-		'//.okbuck/common_deps/_app__libraries_common__libraries_emptylibrary__dummylibrary__anotherapp_:aar__appcompat-v7-23.0.1.aar',
+		'//.okbuck/common_deps/_anotherapp__dummylibrary__app__libraries_emptylibrary__libraries_common_:aar__appcompat-v7-23.0.1.aar',
+		'//.okbuck/common_deps/_anotherapp__dummylibrary__app__libraries_emptylibrary__libraries_common_:aar__support-v4-23.0.1.aar',
 	],
 	visibility = [
 		'PUBLIC',
@@ -37,9 +37,9 @@ android_library(
 	deps = [
 		':build_config',
 		':res',
-		'//.okbuck/common_deps/_app__libraries_common__libraries_emptylibrary__dummylibrary__anotherapp_:aar__support-v4-23.0.1.aar',
-		'//.okbuck/common_deps/_app__libraries_common__libraries_emptylibrary__dummylibrary__anotherapp_:aar__appcompat-v7-23.0.1.aar',
-		'//.okbuck/common_deps/_app__libraries_common__libraries_emptylibrary__dummylibrary__anotherapp_:jar__support-annotations-23.0.1.jar',
+		'//.okbuck/common_deps/_anotherapp__dummylibrary__app__libraries_emptylibrary__libraries_common_:aar__appcompat-v7-23.0.1.aar',
+		'//.okbuck/common_deps/_anotherapp__dummylibrary__app__libraries_emptylibrary__libraries_common_:aar__support-v4-23.0.1.aar',
+		'//.okbuck/common_deps/_anotherapp__dummylibrary__app__libraries_emptylibrary__libraries_common_:jar__support-annotations-23.0.1.jar',
 	],
 	visibility = [
 		'PUBLIC',

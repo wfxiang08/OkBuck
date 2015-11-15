@@ -20,8 +20,7 @@ java_library(
 	],
 	source = '8',
 	target = '8',
-	#postprocess_classes_commands = ['java -Dretrolambda.inputDir=. -Dretrolambda.classpath=. -jar ~/Downloads/retrolambda-2.0.5.jar'],
-	postprocess_classes_commands = ['echo hahaha > ~/Desktop/buck.log'],
+	postprocess_classes_commands = ['./RetroLambda.sh'],
 )
 
 project_config(
