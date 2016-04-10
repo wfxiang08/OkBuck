@@ -1,0 +1,193 @@
+
+android_resource(
+	name = 'res_main',
+	res = 'res',
+	package = 'com.github.piasy.okbuck.example.anotherapp',
+	deps = [
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//libraries/emptylibrary:res_release',
+		'//libraries/common:res_main',
+		'//libraries/common:res_paid_release',   # 这里的 main, paid_release等是如何处理的呢?
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+
+# // 引用外部包
+# compile 'com.android.support:appcompat-v7:23.1.1'
+# compile 'com.android.support:support-v4:23.1.1'
+#
+# // 本项目中的lib的引用
+# compile project(":libraries:javalibrary")
+# compile project(":libraries:emptylibrary")
+#
+# // 带有: configuration的lib
+# releaseCompile project(path: ':libraries:common', configuration: 'paidRelease')
+# debugCompile project(path: ':libraries:common', configuration: 'freeDebug')
+
+
+# 不同的config的定义
+android_build_config(
+	name = 'build_config_debug',
+	package = 'com.github.piasy.okbuck.example.anotherapp',
+	values = [
+		'String VERSION_NAME = "1.0"',
+		'int VERSION_CODE = 1',
+		'String APPLICATION_ID = "com.github.piasy.okbuck.example.anotherapp"',
+		'String BUILD_TYPE = "debug"',
+		'String FLAVOR = "default"',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_build_config(
+	name = 'build_config_release',
+	package = 'com.github.piasy.okbuck.example.anotherapp',
+	values = [
+		'String VERSION_NAME = "1.0"',
+		'int VERSION_CODE = 1',
+		'String APPLICATION_ID = "com.github.piasy.okbuck.example.anotherapp"',
+		'String BUILD_TYPE = "release"',
+		'String FLAVOR = "default"',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+# 代码相关的
+android_library(
+	name = 'src_debug',
+	srcs = glob([
+		'src/**/*.java',
+	]),
+	annotation_processors = [
+	],
+	annotation_processor_deps = [
+	],
+	deps = [
+		':res_main',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__javax.inject-1.jar',
+		'//libraries/common:src_free_debug',  # 资源
+		'//libraries/common:res_main',        #
+		'//libraries/common:res_free_debug',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//libraries/javalibrary:src',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__gson-2.4.jar',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__javax.annotation-10.0-b28.jar',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__dagger-2.0.1.jar',
+		'//libraries/emptylibrary:src',
+		'//libraries/emptylibrary:res_release',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:jar__support-annotations-23.1.1.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+		':build_config_debug',
+		':native_libs',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_library(
+	name = 'src_release',
+	srcs = glob([
+		'src/**/*.java',
+	]),
+	annotation_processors = [
+	],
+	annotation_processor_deps = [
+	],
+	deps = [
+		':res_main',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__javax.inject-1.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//libraries/javalibrary:src',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__gson-2.4.jar',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__javax.annotation-10.0-b28.jar',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__dagger-2.0.1.jar',
+		'//libraries/emptylibrary:src',
+		'//libraries/emptylibrary:res_release',
+		'//libraries/common:src_paid_release',
+		'//libraries/common:res_main',
+		'//libraries/common:res_paid_release',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:jar__support-annotations-23.1.1.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+		':build_config_release',
+		':native_libs',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+prebuilt_native_library(
+	name = 'native_libs',
+	native_libs = 'jniLibs',
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+project_config(
+	src_target = '//anotherapp:src',
+	src_roots = [
+		'src',
+	],
+)
+
+# 这是什么东西?
+genrule(
+	name = 'generate_manifest_main',
+	srcs = [
+		'AndroidManifest.xml',
+	],
+	out = 'AndroidManifest.xml',
+	bash = '$(exe //okbuck-scripts:manifest) $SRCDIR/AndroidManifest.xml $OUT 1.0 1 15 23 true',
+)
+
+android_manifest(
+	name = 'manifest',
+	skeleton = ':generate_manifest_main',
+	deps = [
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//libraries/emptylibrary:src',
+		'//libraries/common:src_paid_release',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+# buck build //anotherapp:bin_debug
+android_binary(
+	name = 'bin_debug',
+	manifest = ':manifest',
+	keystore = '//.okbuck/anotherapp_keystore:key_store_debug',
+	deps = [
+		':src_debug',
+		':res_main',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+# buck build //anotherapp:bin_release
+android_binary(
+	name = 'bin_release',
+	manifest = ':manifest',
+	keystore = '//.okbuck/anotherapp_keystore:key_store_release',
+	deps = [
+		':src_release',
+		':res_main',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+

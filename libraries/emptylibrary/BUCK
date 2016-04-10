@@ -1,0 +1,57 @@
+# 定义资源文件
+android_resource(
+	name = 'res_release',
+	res = 'src/release/res',
+	package = 'com.github.piasy.okbuck.example.empty',
+	deps = [
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_build_config(
+	name = 'build_config',
+	package = 'com.github.piasy.okbuck.example.empty',
+	values = [
+		'String VERSION_NAME = "1.0"',
+		'int VERSION_CODE = 1',
+		'String BUILD_TYPE = "release"',
+		'String FLAVOR = "default"',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_library(
+	name = 'src',
+	srcs = glob([
+		'src/main/java/**/*.java',
+	]),
+	manifest = 'src/main/AndroidManifest.xml',
+	annotation_processors = [
+	],
+	annotation_processor_deps = [
+	],
+	deps = [
+		':res_release',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:jar__support-annotations-23.1.1.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+		':build_config',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+project_config(
+	src_target = '//libraries/emptylibrary:src',
+	src_roots = [
+		'src/main/java',
+	],
+)
+

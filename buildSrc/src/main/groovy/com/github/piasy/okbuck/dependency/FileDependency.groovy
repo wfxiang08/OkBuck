@@ -102,6 +102,7 @@ public abstract class FileDependency extends Dependency {
             mDstDir.mkdirs()
         }
         logger.debug "copying ${mLocalFile.absolutePath} into ${mDstDir.absolutePath}"
+        // 从LocalFile拷贝到: mDstDir?
         IOHelper.copy(new FileInputStream(mLocalFile), new FileOutputStream(
                 new File("${mDstDir.absolutePath}/${mLocalFile.name}")))
     }

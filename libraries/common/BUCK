@@ -1,0 +1,269 @@
+import re
+gen_common_aidls = []
+for aidl_file in glob(['src/main/aidl/**/*.aidl']):
+	name = 'common_aidls__' + re.sub(r'^.*/([^/]+)\.aidl$', r'\1', aidl_file)
+	gen_common_aidls.append(':' + name)
+	gen_aidl(
+		name = name,
+		aidl = aidl_file,
+		import_path = 'libraries/common/src/main/aidl',
+	)
+
+# 1. 定义: aidls
+android_library(
+	name = 'common_aidls',
+	srcs = gen_common_aidls,
+)
+
+# 2. 定义resource
+android_resource(
+	name = 'res_main',
+	res = 'src/main/res',
+	package = 'com.github.piasy.okbuck.example.common',
+	deps = [	# 添加外部引用的Deps
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+# 3. free debug res
+android_resource(
+	name = 'res_free_debug',
+	res = 'src/freeDebug/res',
+	package = 'com.github.piasy.okbuck.example.common',
+	deps = [
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+# 4.
+android_resource(
+	name = 'res_free_release',
+	res = 'src/freeRelease/res',
+	package = 'com.github.piasy.okbuck.example.common',
+	deps = [
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+# config 从哪儿来呢? 根据什么规则来呢?
+android_build_config(
+	name = 'build_config_free_debug',
+	package = 'com.github.piasy.okbuck.example.common',
+	values = [
+		'String VERSION_NAME = "1.0"',
+		'int VERSION_CODE = 1',
+		'String BUILD_TYPE = "debug"',
+		'String FLAVOR = "free"',
+		'String COMMON_CONFIG = "free"',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_build_config(
+	name = 'build_config_free_release',
+	package = 'com.github.piasy.okbuck.example.common',
+	values = [
+		'String VERSION_NAME = "1.0"',
+		'int VERSION_CODE = 1',
+		'String BUILD_TYPE = "release"',
+		'String FLAVOR = "free"',
+		'String COMMON_CONFIG = "free"',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+# 代码部分
+android_library(
+	name = 'src_free_debug',
+	# gradle/BUCK如何理解: flavor/build type呢?
+	srcs = glob([
+		'src/main/java/**/*.java',
+		'src/freeDebug/java/**/*.java',
+	]),
+	manifest = 'src/main/AndroidManifest.xml',
+	annotation_processors = [
+	],
+	annotation_processor_deps = [
+	],
+	# https://buckbuild.com/rule/java_library.html
+	exported_deps = [
+		':common_aidls',
+	],
+	deps = [
+		':res_main',
+		':res_free_debug',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:jar__support-annotations-23.1.1.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+		':build_config_free_debug',
+		':common_aidls',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_library(
+	name = 'src_free_release',
+	srcs = glob([
+		'src/main/java/**/*.java',
+		'src/freeRelease/java/**/*.java',
+	]),
+	manifest = 'src/main/AndroidManifest.xml',
+	annotation_processors = [
+	],
+	annotation_processor_deps = [
+	],
+	exported_deps = [
+		':common_aidls',
+	],
+	deps = [
+		':res_main',
+		':res_free_release',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:jar__support-annotations-23.1.1.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+		':build_config_free_release',
+		':common_aidls',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_resource(
+	name = 'res_paid_debug',
+	res = 'src/paidDebug/res',
+	package = 'com.github.piasy.okbuck.example.common',
+	deps = [
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_resource(
+	name = 'res_paid_release',
+	res = 'src/paidRelease/res',
+	package = 'com.github.piasy.okbuck.example.common',
+	deps = [
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_build_config(
+	name = 'build_config_paid_debug',
+	package = 'com.github.piasy.okbuck.example.common',
+	values = [
+		'String VERSION_NAME = "1.0"',
+		'int VERSION_CODE = 1',
+		'String BUILD_TYPE = "debug"',
+		'String FLAVOR = "paid"',
+		'String COMMON_CONFIG = "paid"',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_build_config(
+	name = 'build_config_paid_release',
+	package = 'com.github.piasy.okbuck.example.common',
+	values = [
+		'String VERSION_NAME = "1.0"',
+		'int VERSION_CODE = 1',
+		'String BUILD_TYPE = "release"',
+		'String FLAVOR = "paid"',
+		'String COMMON_CONFIG = "paid"',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_library(
+	name = 'src_paid_debug',
+	srcs = glob([
+		'src/main/java/**/*.java',
+		'src/paidDebug/java/**/*.java',
+	]),
+	manifest = 'src/main/AndroidManifest.xml',
+	annotation_processors = [
+	],
+	annotation_processor_deps = [
+	],
+	exported_deps = [
+		':common_aidls',
+	],
+	deps = [
+		':res_main',
+		':res_paid_debug',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:jar__support-annotations-23.1.1.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+		':build_config_paid_debug',
+		':common_aidls',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_library(
+	name = 'src_paid_release',
+	srcs = glob([
+		'src/paidRelease/java/**/*.java',
+		'src/main/java/**/*.java',
+	]),
+	manifest = 'src/main/AndroidManifest.xml',
+	annotation_processors = [
+	],
+	annotation_processor_deps = [
+	],
+	exported_deps = [
+		':common_aidls',
+	],
+	deps = [
+		':res_main',
+		':res_paid_release',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:jar__support-annotations-23.1.1.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+		':build_config_paid_release',
+		':common_aidls',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+# 这个作用?
+project_config(
+	src_target = '//libraries/common:src',
+	src_roots = [
+		'src/main/java',
+	],
+)
+

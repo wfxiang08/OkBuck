@@ -291,19 +291,21 @@ public final class ProjectHelper {
         return targetSdkVersion
     }
 
+    // 如何获取代码集合呢?
     public static Set<String> getProjectSrcSet(Project project, String flavorVariant) {
         Set<String> srcSet = new HashSet<>()
         switch (getSubProjectType(project)) {
             case ProjectType.AndroidAppProject:
             case ProjectType.AndroidLibProject:
-                for (File srcDir :
-                        project.android.sourceSets.getByName(flavorVariant).java.srcDirs) {
+                // src
+                for (File srcDir : project.android.sourceSets.getByName(flavorVariant).java.srcDirs) {
                     if (srcDir.exists()) {
                         srcSet.add(FileUtil.getDirPathDiff(project.projectDir, srcDir).substring(1))
                     }
                 }
                 break
             case ProjectType.JavaLibProject:
+                // main.java.srcDirs
                 for (File srcDir : project.sourceSets.main.java.srcDirs) {
                     if (srcDir.exists()) {
                         srcSet.add(FileUtil.getDirPathDiff(project.projectDir, srcDir).substring(1))

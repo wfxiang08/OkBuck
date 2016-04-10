@@ -209,8 +209,7 @@ public final class DependencyExtractor {
     ) {
         Map<ResolvedDependency, File> deps = new HashMap<>()
         try {
-            for (ResolvedDependency dependency : project.configurations.getByName(
-                    configuration).resolvedConfiguration.firstLevelModuleDependencies) {
+            for (ResolvedDependency dependency : project.configurations.getByName(configuration).resolvedConfiguration.firstLevelModuleDependencies) {
                 flatResolvedDependencies(deps, dependency)
             }
         } catch (Exception e) {

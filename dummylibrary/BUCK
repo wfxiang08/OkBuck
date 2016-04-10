@@ -1,0 +1,254 @@
+android_resource(
+	name = 'res_main',
+	res = 'res',
+	package = 'com.github.piasy.okbuck.example.dummylibrary',
+	deps = [
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//libraries/common:res_main',
+		'//libraries/common:res_free_debug',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+# 如何构建呢?
+# buildConfigField 指定的字段，将放在指定的Package下的: BuildConfig文件中
+# 如何命名?
+#    build_config_flavor_buildType
+# 1. free_debug
+android_build_config(
+	name = 'build_config_free_debug',
+	package = 'com.github.piasy.okbuck.example.dummylibrary',
+	values = [
+		'String DUMMY_CONFIG = "free"',
+		'String VERSION_NAME = "1.0"',
+		'int VERSION_CODE = 1',
+		'String BUILD_TYPE = "debug"',
+		'String FLAVOR = "free"',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+# 2. free_release
+android_build_config(
+	name = 'build_config_free_release',
+	package = 'com.github.piasy.okbuck.example.dummylibrary',
+	values = [
+		'String DUMMY_CONFIG = "free"',
+		'String VERSION_NAME = "1.0"',
+		'int VERSION_CODE = 1',
+		'String BUILD_TYPE = "release"',
+		'String FLAVOR = "free"',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+# 3. paid_debug
+android_build_config(
+	name = 'build_config_paid_debug',
+	package = 'com.github.piasy.okbuck.example.dummylibrary',
+	values = [
+		'String DUMMY_CONFIG = "paid"',
+		'String VERSION_NAME = "1.0"',
+		'int VERSION_CODE = 1',
+		'String BUILD_TYPE = "debug"',
+		'String FLAVOR = "paid"',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+# 4. paid_release
+android_build_config(
+	name = 'build_config_paid_release',
+	package = 'com.github.piasy.okbuck.example.dummylibrary',
+	values = [
+		'String DUMMY_CONFIG = "paid"',
+		'String VERSION_NAME = "1.0"',
+		'int VERSION_CODE = 1',
+		'String BUILD_TYPE = "release"',
+		'String FLAVOR = "paid"',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+
+# library也按照: flavor 和 build type分为四种
+# 1.
+android_library(
+	name = 'src_free_debug',
+	# 当对于当前的BUCK文件
+	srcs = glob([
+		'src/**/*.java',
+	]),
+	manifest = 'AndroidManifest.xml',
+	#
+	# 如何处理其中的: Annotation呢?
+	# http://stackoverflow.com/questions/33719429/how-to-use-custom-annotation-processors-with-buck
+	annotation_processors = [
+		'dagger.internal.codegen.ComponentProcessor',
+	],
+
+	# 直接添加自己的依赖(这个简单)
+	annotation_processor_deps = [
+		'//.okbuck/dummylibrary_apt_deps:all_jars',
+		'//.okbuck/dummylibrary_apt_deps:all_aars',
+	],
+
+	# 其他的依赖如何处理呢?
+	deps = [
+		':res_main',  # 直接应用资源(没有区分flavor/build type, 因此直接引用 res_main
+
+		# 这两个包是如何处理的?
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__javax.inject-1.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+
+		# 注意flavor/build type的传递
+		'//libraries/common:src_free_debug',
+		'//libraries/common:res_main', # 不管使用什么样的flavor, res_main必须存在(flavor是否可以覆盖默认的文件)
+		'//libraries/common:res_free_debug',
+
+		'//libraries/javalibrary:src',  # 简单的项目依赖(没有flavor/debug之分)
+
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__javax.annotation-10.0-b28.jar',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__gson-2.4.jar',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__dagger-2.0.1.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:jar__support-annotations-23.1.1.jar',
+		'//.okbuck/A9A36B2292246CF6BE246654A052CE9E:jar__sqlite-1.3.0.jar',
+		'//.okbuck/A9A36B2292246CF6BE246654A052CE9E:jar__common-1.3.0.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+
+		':build_config_free_debug',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+# 2.
+android_library(
+	name = 'src_free_release',
+	srcs = glob([
+		'src/**/*.java',
+	]),
+	manifest = 'AndroidManifest.xml',
+	annotation_processors = [
+		'dagger.internal.codegen.ComponentProcessor',
+	],
+	annotation_processor_deps = [
+		'//.okbuck/dummylibrary_apt_deps:all_jars',
+		'//.okbuck/dummylibrary_apt_deps:all_aars',
+	],
+	deps = [
+		':res_main',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__javax.inject-1.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//libraries/common:src_free_debug',
+		'//libraries/common:res_main',
+		'//libraries/common:res_free_debug',
+		'//libraries/javalibrary:src',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__javax.annotation-10.0-b28.jar',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__gson-2.4.jar',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__dagger-2.0.1.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:jar__support-annotations-23.1.1.jar',
+		'//.okbuck/A9A36B2292246CF6BE246654A052CE9E:jar__sqlite-1.3.0.jar',
+		'//.okbuck/A9A36B2292246CF6BE246654A052CE9E:jar__common-1.3.0.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+		':build_config_free_release',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+
+# 3.
+android_library(
+	name = 'src_paid_debug',
+	srcs = glob([
+		'src/**/*.java',
+	]),
+	manifest = 'AndroidManifest.xml',
+	annotation_processors = [
+		'dagger.internal.codegen.ComponentProcessor',
+	],
+	annotation_processor_deps = [
+		'//.okbuck/dummylibrary_apt_deps:all_jars',
+		'//.okbuck/dummylibrary_apt_deps:all_aars',
+	],
+	deps = [
+		':res_main',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__javax.inject-1.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//libraries/javalibrary:src',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__javax.annotation-10.0-b28.jar',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__gson-2.4.jar',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__dagger-2.0.1.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:jar__support-annotations-23.1.1.jar',
+		'//libraries/common:src_paid_release',
+		'//libraries/common:res_main',
+		'//libraries/common:res_paid_release',
+		'//.okbuck/A9A36B2292246CF6BE246654A052CE9E:jar__sqlite-1.3.0.jar',
+		'//.okbuck/A9A36B2292246CF6BE246654A052CE9E:jar__common-1.3.0.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+		':build_config_paid_debug',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+# 4.
+android_library(
+	name = 'src_paid_release',
+	srcs = glob([
+		'src/**/*.java',
+	]),
+	manifest = 'AndroidManifest.xml',
+	annotation_processors = [
+		'dagger.internal.codegen.ComponentProcessor',
+	],
+	annotation_processor_deps = [
+		'//.okbuck/dummylibrary_apt_deps:all_jars',
+		'//.okbuck/dummylibrary_apt_deps:all_aars',
+	],
+	deps = [
+		':res_main',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__javax.inject-1.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//libraries/javalibrary:src',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__javax.annotation-10.0-b28.jar',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__gson-2.4.jar',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__dagger-2.0.1.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:jar__support-annotations-23.1.1.jar',
+		'//libraries/common:src_paid_release',
+		'//libraries/common:res_main',
+		'//libraries/common:res_paid_release',
+		'//.okbuck/A9A36B2292246CF6BE246654A052CE9E:jar__sqlite-1.3.0.jar',
+		'//.okbuck/A9A36B2292246CF6BE246654A052CE9E:jar__common-1.3.0.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+		':build_config_paid_release',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+# 用于生成可以供 IDE 使用的配置
+# https://buckbuild.com/rule/project_config.html
+project_config(
+	src_target = '//dummylibrary:src',
+	src_roots = [
+		'src',
+	],
+)
+

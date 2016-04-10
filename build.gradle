@@ -37,6 +37,8 @@ okbuck {
     checkDepConflict true
 
     // 资源目录
+    // resPackages是一个map，用来指定每个module生成的的资源文件的包名，key是module的名字， value是指定的包名，
+    // 通常和该module的AndroidManifest.xml中的package配置保持一致
     resPackages = [
             dummylibrary: 'com.github.piasy.okbuck.example.dummylibrary',
             app         : 'com.github.piasy.okbuck.example',

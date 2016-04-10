@@ -1,0 +1,555 @@
+APP_CLASS_SOURCE = 'src/main/java/com/github/piasy/okbuck/example/AppShell.java'
+android_library(
+	name = 'app_lib_dev_debug',
+	srcs = [APP_CLASS_SOURCE],
+	deps = [
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__buck-android-support.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__multidex-1.0.1.aar',
+		'//libraries/javalibrary:src',
+		':build_config_dev_debug',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_library(
+	name = 'app_lib_dev_release',
+	srcs = [APP_CLASS_SOURCE],
+	deps = [
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__buck-android-support.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__multidex-1.0.1.aar',
+		'//libraries/javalibrary:src',
+		':build_config_dev_release',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_library(
+	name = 'app_lib_prod_debug',
+	srcs = [APP_CLASS_SOURCE],
+	deps = [
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__buck-android-support.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__multidex-1.0.1.aar',
+		'//libraries/javalibrary:src',
+		':build_config_prod_debug',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_library(
+	name = 'app_lib_prod_release',
+	srcs = [APP_CLASS_SOURCE],
+	deps = [
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__buck-android-support.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__multidex-1.0.1.aar',
+		'//libraries/javalibrary:src',
+		':build_config_prod_release',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_resource(
+	name = 'res_main',
+	res = 'src/main/res',
+	package = 'com.github.piasy.okbuck.example',
+	deps = [
+		'//libraries/common:res_main',
+		'//libraries/common:res_free_debug',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__multidex-1.0.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__leakcanary-android-1.3.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__recyclerview-v7-23.1.1.aar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__design-23.1.1.aar',
+		'//dummylibrary:res_main',
+		'//libraries/emptylibrary:res_release',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__xlog-android-idle-2.1.1.aar',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_resource(
+	name = 'res_dev',
+	res = 'src/dev/res',
+	package = 'com.github.piasy.okbuck.example',
+	deps = [
+		'//libraries/common:res_main',
+		'//libraries/common:res_free_debug',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__multidex-1.0.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__leakcanary-android-1.3.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__recyclerview-v7-23.1.1.aar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__design-23.1.1.aar',
+		'//dummylibrary:res_main',
+		'//libraries/emptylibrary:res_release',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__xlog-android-idle-2.1.1.aar',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_build_config(
+	name = 'build_config_dev_debug',
+	package = 'com.github.piasy.okbuck.example',
+	values = [
+		'boolean CAN_JUMP = true',
+		'boolean XLOG_ENABLED = true',
+		'String VERSION_NAME = "1.0"',
+		'int VERSION_CODE = 1',
+		'String APPLICATION_ID = "com.github.piasy.okbuck.example"',
+		'String BUILD_TYPE = "debug"',
+		'boolean DEBUG_CONFIG = true',
+		'String FLAVOR = "dev"',
+		'int EXOPACKAGE_FLAGS = 0',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_build_config(
+	name = 'build_config_dev_release',
+	package = 'com.github.piasy.okbuck.example',
+	values = [
+		'boolean CAN_JUMP = true',
+		'boolean XLOG_ENABLED = true',
+		'String VERSION_NAME = "1.0"',
+		'int VERSION_CODE = 1',
+		'String APPLICATION_ID = "com.github.piasy.okbuck.example"',
+		'String BUILD_TYPE = "release"',
+		'boolean DEBUG_CONFIG = false',
+		'String FLAVOR = "dev"',
+		'int EXOPACKAGE_FLAGS = 0',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_library(
+	name = 'src_dev_debug',
+	srcs = glob([
+		'src/dev/java/**/*.java',
+		'src/main/java/**/*.java',
+	], excludes = [APP_CLASS_SOURCE]),
+	annotation_processors = [
+		'dagger.internal.codegen.ComponentProcessor',
+		'butterknife.internal.ButterKnifeProcessor',
+	],
+	annotation_processor_deps = [
+		'//.okbuck/app_apt_deps:all_jars',
+		'//.okbuck/app_apt_deps:all_aars',
+	],
+	deps = [
+		':res_main',
+		':res_dev',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__javax.inject-1.jar',
+		'//libraries/common:src_free_debug',
+		'//libraries/common:res_main',
+		'//libraries/common:res_free_debug',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__gson-2.4.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__buck-android-support.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__multidex-1.0.1.aar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:jar__support-annotations-23.1.1.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__butterknife-7.0.1.jar',
+		'//.okbuck/A9A36B2292246CF6BE246654A052CE9E:jar__sqlite-1.3.0.jar',
+		'//.okbuck/A9A36B2292246CF6BE246654A052CE9E:jar__common-1.3.0.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__leakcanary-android-1.3.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__recyclerview-v7-23.1.1.aar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__leakcanary-analyzer-1.3.1.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__haha-1.3.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__design-23.1.1.aar',
+		'//libraries/javalibrary:src',
+		'//dummylibrary:src_free_release',
+		'//dummylibrary:res_main',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__javax.annotation-10.0-b28.jar',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__dagger-2.0.1.jar',
+		'//libraries/emptylibrary:src',
+		'//libraries/emptylibrary:res_release',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__leakcanary-watcher-1.3.1.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__xlog-android-idle-2.1.1.aar',
+		':build_config_dev_debug',
+		':native_libs',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_library(
+	name = 'src_dev_release',
+	srcs = glob([
+		'src/dev/java/**/*.java',
+		'src/main/java/**/*.java',
+	], excludes = [APP_CLASS_SOURCE]),
+	annotation_processors = [
+		'dagger.internal.codegen.ComponentProcessor',
+		'butterknife.internal.ButterKnifeProcessor',
+	],
+	annotation_processor_deps = [
+		'//.okbuck/app_apt_deps:all_jars',
+		'//.okbuck/app_apt_deps:all_aars',
+	],
+	deps = [
+		':res_main',
+		':res_dev',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__javax.inject-1.jar',
+		'//libraries/common:src_free_debug',
+		'//libraries/common:res_main',
+		'//libraries/common:res_free_debug',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__gson-2.4.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__buck-android-support.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__multidex-1.0.1.aar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:jar__support-annotations-23.1.1.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__butterknife-7.0.1.jar',
+		'//.okbuck/A9A36B2292246CF6BE246654A052CE9E:jar__sqlite-1.3.0.jar',
+		'//.okbuck/A9A36B2292246CF6BE246654A052CE9E:jar__common-1.3.0.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__leakcanary-android-1.3.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__recyclerview-v7-23.1.1.aar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__leakcanary-analyzer-1.3.1.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__haha-1.3.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__design-23.1.1.aar',
+		'//libraries/javalibrary:src',
+		'//dummylibrary:src_free_release',
+		'//dummylibrary:res_main',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__javax.annotation-10.0-b28.jar',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__dagger-2.0.1.jar',
+		'//libraries/emptylibrary:src',
+		'//libraries/emptylibrary:res_release',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__leakcanary-watcher-1.3.1.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__xlog-android-idle-2.1.1.aar',
+		':build_config_dev_release',
+		':native_libs',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_resource(
+	name = 'res_prod',
+	res = 'src/prod/res',
+	package = 'com.github.piasy.okbuck.example',
+	deps = [
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//libraries/common:res_main',
+		'//libraries/common:res_paid_release',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__multidex-1.0.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__leakcanary-android-1.3.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__recyclerview-v7-23.1.1.aar',
+		'//dummylibrary:res_main',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__design-23.1.1.aar',
+		'//libraries/emptylibrary:res_release',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__xlog-android-idle-2.1.1.aar',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_build_config(
+	name = 'build_config_prod_debug',
+	package = 'com.github.piasy.okbuck.example',
+	values = [
+		'boolean CAN_JUMP = false',
+		'boolean XLOG_ENABLED = true',
+		'String VERSION_NAME = "1.0"',
+		'int VERSION_CODE = 1',
+		'String APPLICATION_ID = "com.github.piasy.okbuck.example"',
+		'String BUILD_TYPE = "debug"',
+		'boolean DEBUG_CONFIG = true',
+		'String FLAVOR = "prod"',
+		'int EXOPACKAGE_FLAGS = 0',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_build_config(
+	name = 'build_config_prod_release',
+	package = 'com.github.piasy.okbuck.example',
+	values = [
+		'boolean CAN_JUMP = true',
+		'boolean XLOG_ENABLED = true',
+		'String VERSION_NAME = "1.0"',
+		'int VERSION_CODE = 1',
+		'String APPLICATION_ID = "com.github.piasy.okbuck.example"',
+		'String BUILD_TYPE = "release"',
+		'boolean DEBUG_CONFIG = false',
+		'String FLAVOR = "prod"',
+		'int EXOPACKAGE_FLAGS = 0',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_library(
+	name = 'src_prod_debug',
+	srcs = glob([
+		'src/prod/java/**/*.java',
+		'src/main/java/**/*.java',
+	], excludes = [APP_CLASS_SOURCE]),
+	annotation_processors = [
+		'dagger.internal.codegen.ComponentProcessor',
+		'butterknife.internal.ButterKnifeProcessor',
+	],
+	annotation_processor_deps = [
+		'//.okbuck/app_apt_deps:all_jars',
+		'//.okbuck/app_apt_deps:all_aars',
+	],
+	deps = [
+		':res_main',
+		':res_prod',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__javax.inject-1.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__gson-2.4.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__buck-android-support.jar',
+		'//libraries/common:src_paid_release',
+		'//libraries/common:res_main',
+		'//libraries/common:res_paid_release',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__multidex-1.0.1.aar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:jar__support-annotations-23.1.1.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__butterknife-7.0.1.jar',
+		'//.okbuck/A9A36B2292246CF6BE246654A052CE9E:jar__sqlite-1.3.0.jar',
+		'//.okbuck/A9A36B2292246CF6BE246654A052CE9E:jar__common-1.3.0.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__leakcanary-android-1.3.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__recyclerview-v7-23.1.1.aar',
+		'//dummylibrary:src_paid_release',
+		'//dummylibrary:res_main',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__leakcanary-analyzer-1.3.1.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__haha-1.3.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__design-23.1.1.aar',
+		'//libraries/javalibrary:src',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__javax.annotation-10.0-b28.jar',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__dagger-2.0.1.jar',
+		'//libraries/emptylibrary:src',
+		'//libraries/emptylibrary:res_release',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__leakcanary-watcher-1.3.1.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__xlog-android-idle-2.1.1.aar',
+		':build_config_prod_debug',
+		':native_libs',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_library(
+	name = 'src_prod_release',
+	srcs = glob([
+		'src/prod/java/**/*.java',
+		'src/main/java/**/*.java',
+	], excludes = [APP_CLASS_SOURCE]),
+	annotation_processors = [
+		'dagger.internal.codegen.ComponentProcessor',
+		'butterknife.internal.ButterKnifeProcessor',
+	],
+	annotation_processor_deps = [
+		'//.okbuck/app_apt_deps:all_jars',
+		'//.okbuck/app_apt_deps:all_aars',
+	],
+	deps = [
+		':res_main',
+		':res_prod',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__javax.inject-1.jar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__gson-2.4.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__buck-android-support.jar',
+		'//libraries/common:src_paid_release',
+		'//libraries/common:res_main',
+		'//libraries/common:res_paid_release',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__multidex-1.0.1.aar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:jar__support-annotations-23.1.1.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__butterknife-7.0.1.jar',
+		'//.okbuck/A9A36B2292246CF6BE246654A052CE9E:jar__sqlite-1.3.0.jar',
+		'//.okbuck/A9A36B2292246CF6BE246654A052CE9E:jar__common-1.3.0.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__leakcanary-android-1.3.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__recyclerview-v7-23.1.1.aar',
+		'//dummylibrary:src_paid_release',
+		'//dummylibrary:res_main',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__leakcanary-analyzer-1.3.1.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__haha-1.3.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__design-23.1.1.aar',
+		'//libraries/javalibrary:src',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__javax.annotation-10.0-b28.jar',
+		'//.okbuck/21E3867940D4CAD1548B692B7146AB0E:jar__dagger-2.0.1.jar',
+		'//libraries/emptylibrary:src',
+		'//libraries/emptylibrary:res_release',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:jar__leakcanary-watcher-1.3.1.jar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__xlog-android-idle-2.1.1.aar',
+		':build_config_prod_release',
+		':native_libs',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+prebuilt_native_library(
+	name = 'native_libs',
+	native_libs = 'src/main/jniLibs',
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+project_config(
+	src_target = '//app:src',
+	src_roots = [
+		'src/main/java',
+	],
+)
+
+genrule(
+	name = 'generate_manifest_main',
+	srcs = [
+		'src/main/AndroidManifest.xml',
+	],
+	out = 'AndroidManifest.xml',
+	bash = '$(exe //okbuck-scripts:manifest) $SRCDIR/src/main/AndroidManifest.xml $OUT 1.0 1 15 23 true',
+)
+
+android_manifest(
+	name = 'manifest',
+	skeleton = ':generate_manifest_main',
+	deps = [
+		'//libraries/common:src_free_debug',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__appcompat-v7-23.1.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__multidex-1.0.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__leakcanary-android-1.3.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__recyclerview-v7-23.1.1.aar',
+		'//.okbuck/4EDF64833F364E3347E8EFA52FEBC7B9:aar__support-v4-23.1.1.aar',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__design-23.1.1.aar',
+		'//dummylibrary:src_free_release',
+		'//libraries/emptylibrary:src',
+		'//.okbuck/AFFB34D18189F4D10144A341628B7C81:aar__xlog-android-idle-2.1.1.aar',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_binary(
+	name = 'bin_dev_debug',
+	manifest = ':manifest',
+	keystore = '//.okbuck/app_keystore:key_store_debug',
+	exopackage_modes = ['secondary_dex'],
+	use_split_dex = True,
+	linear_alloc_hard_limit = 7194304,
+	primary_dex_patterns = [
+		'^com/github/piasy/okbuck/example/AppShell^',
+		'^com/github/piasy/okbuck/example/BuildConfig^',
+		'^android/support/multidex/',
+		'^com/facebook/buck/android/support/exopackage/',
+		'^com/github/promeg/xlog_android/lib/XLogConfig^',
+		'^com/squareup/leakcanary/LeakCanary^',
+	],
+	deps = [
+		':src_dev_debug',
+		':res_main',
+		':res_dev',
+		':app_lib_dev_debug',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_binary(
+	name = 'bin_dev_release',
+	manifest = ':manifest',
+	keystore = '//.okbuck/app_keystore:key_store_release',
+	exopackage_modes = ['secondary_dex'],
+	use_split_dex = True,
+	linear_alloc_hard_limit = 7194304,
+	primary_dex_patterns = [
+		'^com/github/piasy/okbuck/example/AppShell^',
+		'^com/github/piasy/okbuck/example/BuildConfig^',
+		'^android/support/multidex/',
+		'^com/facebook/buck/android/support/exopackage/',
+		'^com/github/promeg/xlog_android/lib/XLogConfig^',
+		'^com/squareup/leakcanary/LeakCanary^',
+	],
+	deps = [
+		':src_dev_release',
+		':res_main',
+		':res_dev',
+		':app_lib_dev_release',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_binary(
+	name = 'bin_prod_debug',
+	manifest = ':manifest',
+	keystore = '//.okbuck/app_keystore:key_store_debug',
+	exopackage_modes = ['secondary_dex'],
+	use_split_dex = True,
+	linear_alloc_hard_limit = 7194304,
+	primary_dex_patterns = [
+		'^com/github/piasy/okbuck/example/AppShell^',
+		'^com/github/piasy/okbuck/example/BuildConfig^',
+		'^android/support/multidex/',
+		'^com/facebook/buck/android/support/exopackage/',
+		'^com/github/promeg/xlog_android/lib/XLogConfig^',
+		'^com/squareup/leakcanary/LeakCanary^',
+	],
+	deps = [
+		':src_prod_debug',
+		':res_main',
+		':res_prod',
+		':app_lib_prod_debug',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+
+android_binary(
+	name = 'bin_prod_release',
+	manifest = ':manifest',
+	keystore = '//.okbuck/app_keystore:key_store_release',
+	exopackage_modes = ['secondary_dex'],
+	use_split_dex = True,
+	linear_alloc_hard_limit = 7194304,
+	primary_dex_patterns = [
+		'^com/github/piasy/okbuck/example/AppShell^',
+		'^com/github/piasy/okbuck/example/BuildConfig^',
+		'^android/support/multidex/',
+		'^com/facebook/buck/android/support/exopackage/',
+		'^com/github/promeg/xlog_android/lib/XLogConfig^',
+		'^com/squareup/leakcanary/LeakCanary^',
+	],
+	deps = [
+		':src_prod_release',
+		':res_main',
+		':res_prod',
+		':app_lib_prod_release',
+	],
+	visibility = [
+		'PUBLIC',
+	],
+)
+

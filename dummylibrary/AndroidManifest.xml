@@ -27,6 +27,7 @@
 
     <application android:allowBackup="true" android:label="@string/app_name"
                  android:supportsRtl="true">
+      <!-- supportsRtl 是否接受从右到左的布局(一般为false) -->
       <activity android:name=".DummyActivity"/>
     </application>
 

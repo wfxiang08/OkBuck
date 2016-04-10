@@ -28,6 +28,8 @@ android {
         multiDexEnabled true
         versionCode 1
         versionName "1.0"
+
+        // ---> android_build_config --> 作为: android_library 的一个依赖
         buildConfigField "boolean", "CAN_JUMP", "true"
         buildConfigField "boolean", "XLOG_ENABLED", "true"
         buildConfigField "int", "EXOPACKAGE_FLAGS", "0"
@@ -52,6 +54,8 @@ android {
         }
     }
 
+    // 定义了: App的Flavors, 在: src目录下存在多个不同的子目录: main, dev, prod, demo(似乎不存在)
+    //
     productFlavors {
         dev {
             buildConfigField "boolean", "CAN_JUMP", "true"
@@ -64,6 +68,10 @@ android {
         }
     }
 
+    // buildTypes
+    // app_dev_debug
+    // app_dev_release
+    //
     buildTypes {
         debug {
             buildConfigField "boolean", "DEBUG_CONFIG", "true"
@@ -78,6 +86,7 @@ android {
         }
     }
 
+    // 这是什么东西?
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }

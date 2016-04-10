@@ -60,10 +60,12 @@ public final class DependencyProcessor {
 
     private void processCompileDependencies() {
         for (Project project : mDependencyAnalyzer.finalDependencies.keySet()) {
-            if (ProjectHelper.getSubProjectType(
-                    project) == ProjectHelper.ProjectType.AndroidAppProject) {
-                File keystoreDir = new File("${project.rootProject.projectDir.absolutePath}/" +
-                        ".okbuck/${project.name}_keystore")
+            // 如果是Android Project
+            if (ProjectHelper.getSubProjectType(project) == ProjectHelper.ProjectType.AndroidAppProject) {
+                // 根目录下保存这些Key的信息
+                File keystoreDir = new File("${project.rootProject.projectDir.absolutePath}/" + ".okbuck/${project.name}_keystore")
+
+                // 定义了: key store的 keystore, properties等
                 KeystoreRule debugKeystoreRule = createKeystoreRule(project, keystoreDir, "debug")
                 KeystoreRule releaseKeystoreRule = createKeystoreRule(project, keystoreDir, "release")
                 PrintStream printer = new PrintStream("${keystoreDir.absolutePath}/BUCK")
@@ -71,9 +73,11 @@ public final class DependencyProcessor {
                 releaseKeystoreRule.print(printer)
                 printer.close()
             }
+
+            // 获取每个项目的依赖
             for (String flavor : mDependencyAnalyzer.finalDependencies.get(project).keySet()) {
-                for (Dependency dependency :
-                        mDependencyAnalyzer.finalDependencies.get(project).get(flavor)) {
+                // 对于每一个Flavor
+                for (Dependency dependency : mDependencyAnalyzer.finalDependencies.get(project).get(flavor)) {
                     createBuckFileIfNeed(dependency, false)
                     copyDependencyIfNeed(dependency)
                 }
@@ -85,8 +89,9 @@ public final class DependencyProcessor {
         if (dependency.shouldCopy()) {
             if (!dependency.dstDir.exists()) {
                 dependency.dstDir.mkdirs()
-                PrintStream printer = new PrintStream(
-                        new File("${dependency.dstDir.absolutePath}/BUCK"))
+
+                // 为同一个目录下的第三方文件创建一个BUCK(Buck不包含具体的信息)
+                PrintStream printer = new PrintStream(new File("${dependency.dstDir.absolutePath}/BUCK"))
                 new ThirdPartyDependencyBUCKFile(includeShortCut).print(printer)
                 printer.close()
             }

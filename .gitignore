@@ -14,6 +14,6 @@ buck-out/
 .okbuck
 okbuck-scripts
 .buckconfig
-**/BUCK
+# **/BUCK
 
 gradle.properties
