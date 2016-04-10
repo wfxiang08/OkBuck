@@ -1,1 +1,6 @@
-include ':app', ':dummylibrary', ':libraries:javalibrary', ':libraries:emptylibrary', ':libraries:common', ':anotherapp'
+include ':app'
+include ':dummylibrary'
+include ':libraries:javalibrary'
+include ':libraries:emptylibrary'
+include ':libraries:common'
+include ':anotherapp'

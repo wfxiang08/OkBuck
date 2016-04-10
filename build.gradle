@@ -2,6 +2,7 @@
 
 buildscript {
     repositories {
+        // 指定jcenter 因为: OkBuck需要从 jcenter中下载
         jcenter()
     }
     dependencies {
@@ -26,6 +27,7 @@ ext {
     androidSupportSdkVersion = '23.1.1'
 }
 
+// 注意: jcenter的使用
 apply plugin: 'com.github.piasy.okbuck-gradle-plugin'
 
 okbuck {
@@ -33,6 +35,8 @@ okbuck {
     target "android-${rootProject.ext.androidCompileSdkVersion}"
     overwrite true
     checkDepConflict true
+
+    // 资源目录
     resPackages = [
             dummylibrary: 'com.github.piasy.okbuck.example.dummylibrary',
             app         : 'com.github.piasy.okbuck.example',
