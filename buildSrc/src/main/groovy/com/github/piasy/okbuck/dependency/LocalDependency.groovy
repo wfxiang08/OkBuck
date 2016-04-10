@@ -42,6 +42,7 @@ public final class LocalDependency extends FileDependency {
 
     @Override
     Dependency defensiveCopy() {
+        // 拷贝 Dependency
         return fromLocalFile(mRootProjectDir, mLocalFile)
     }
 }

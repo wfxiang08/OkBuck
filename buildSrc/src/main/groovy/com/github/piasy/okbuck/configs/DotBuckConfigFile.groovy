@@ -52,6 +52,24 @@ public final class DotBuckConfigFile extends BuckConfigFile {
 
     @Override
     public final void print(PrintStream printer) {
+
+// .buckconfig的定义
+//        [alias]
+//        appDevDebug = //app:bin_dev_debug
+//        appDevRelease = //app:bin_dev_release
+//        appProdDebug = //app:bin_prod_debug
+//        appProdRelease = //app:bin_prod_release     // 定义了Flavor
+//        anotherappDebug = //anotherapp:bin_debug    // 没有Flavor
+//        anotherappRelease = //anotherapp:bin_release
+//
+//        [android]
+//        build_tools_version = 23.0.1
+//        target = android-23
+//
+//        [project]
+//        ignore = .git, **/.svn
+
+
         printer.println("[alias]")
         for (String alias : mAlias.keySet()) {
             printer.println("\t${alias} = ${mAlias.get(alias)}")

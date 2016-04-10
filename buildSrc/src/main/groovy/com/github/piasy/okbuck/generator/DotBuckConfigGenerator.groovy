@@ -58,21 +58,22 @@ public final class DotBuckConfigGenerator {
     public DotBuckConfigFile generate() {
         Map<String, String> alias = new HashMap<>()
         for (Project project : mRootProject.subprojects) {
-            if (ProjectHelper.getSubProjectType(
-                    project) == ProjectHelper.ProjectType.AndroidAppProject) {
+            // 子项目的类型:
+            // AndroidAppProject, AndroidLibProject, JavaLibProject, 其他
+            if (ProjectHelper.getSubProjectType(project) == ProjectHelper.ProjectType.AndroidAppProject) {
+                // 如何处理Flavor?
                 if (ProjectHelper.exportFlavor(project)) {
+                    //
                     Map<String, ProductFlavor> flavorMap = getFilteredFlavors(project)
                     for (String flavor : flavorMap.keySet()) {
-                        alias.put(project.name + flavor.capitalize() + "Debug",
-                                "/${FileUtil.getProjectPathDiff(mRootProject, project)}:bin_${flavor}_debug")
-                        alias.put(project.name + flavor.capitalize() + "Release",
-                                "/${FileUtil.getProjectPathDiff(mRootProject, project)}:bin_${flavor}_release")
+                        // 每个flavor对应Debug/Release
+                        alias.put(project.name + flavor.capitalize() + "Debug",   "/${FileUtil.getProjectPathDiff(mRootProject, project)}:bin_${flavor}_debug")
+                        alias.put(project.name + flavor.capitalize() + "Release", "/${FileUtil.getProjectPathDiff(mRootProject, project)}:bin_${flavor}_release")
                     }
                 } else {
-                    alias.put(project.name + "Debug",
-                            "/${FileUtil.getProjectPathDiff(mRootProject, project)}:bin_debug")
-                    alias.put(project.name + "Release",
-                            "/${FileUtil.getProjectPathDiff(mRootProject, project)}:bin_release")
+                    // 处理默认的
+                    alias.put(project.name + "Debug", "/${FileUtil.getProjectPathDiff(mRootProject, project)}:bin_debug")
+                    alias.put(project.name + "Release", "/${FileUtil.getProjectPathDiff(mRootProject, project)}:bin_release")
                 }
             }
         }
@@ -85,6 +86,7 @@ public final class DotBuckConfigGenerator {
         if (filter == null || filter.empty) {
             return flavorMap
         } else {
+            // 从 flavorMap 上读取指定的 Flavor
             Map<String, ProductFlavor> filtered = new HashMap<>()
             for (String flavor : filter) {
                 if (flavorMap.containsKey(flavor)) {

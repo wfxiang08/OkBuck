@@ -36,11 +36,12 @@ import java.util.jar.JarEntry
 import java.util.jar.JarFile
 
 /**
+ * 如何处理项目依赖关系呢?
  * extract dependencies from Project, and output them with:
- * Map<Project, Map<String, Set<Dependency>>> : Project => FlavorVariant => Dependency,
- * Map<Project, Set<String>> : Project => annotation processors,
- * Map<Project, Set<File>> : Project => apt dependency,
- * */
+ *      Map<Project, Map<String, Set<Dependency>>> : Project => FlavorVariant => Dependency,
+ *      Map<Project, Set<String>> : Project => annotation processors,
+ *      Map<Project, Set<File>> : Project => apt dependency,
+ */
 public final class DependencyExtractor {
     private static Logger logger = Logging.getLogger(DependencyExtractor)
 
@@ -52,6 +53,7 @@ public final class DependencyExtractor {
 
     public DependencyExtractor(Project rootProject) {
         mRootProject = rootProject
+
         mFullDependencies = new HashMap<>()
         mAptDependencies = new HashMap<>()
         mAnnotationProcessors = new HashMap<>()
@@ -73,36 +75,27 @@ public final class DependencyExtractor {
         printExtractResult()
     }
 
-    Map<Project, Map<String, Set<Dependency>>> getFullDependencies() {
-        return mFullDependencies
-    }
 
-    Map<Project, Set<Dependency>> getAptDependencies() {
-        return mAptDependencies
-    }
-
-    Map<Project, Set<String>> getAnnotationProcessors() {
-        return mAnnotationProcessors
-    }
 
     private extractAptDependencies() {
         for (Project project : mRootProject.subprojects) {
+            // 跳过位置类型的Project
             if (ProjectHelper.getSubProjectType(project) == ProjectHelper.ProjectType.Unknown) {
                 continue
             }
+
+            // 计算子项目的Dependency
             mAptDependencies.put(project, new HashSet<Dependency>())
             try {
                 for (File dependency : project.configurations.getByName("apt").resolve()) {
-                    mAptDependencies.get(project).
-                            add(Dependency.fromLocalFile(mRootProject.projectDir, dependency))
+                    mAptDependencies.get(project).add(Dependency.fromLocalFile(mRootProject.projectDir, dependency))
                 }
             } catch (Exception e) {
                 logger.info "${project.name} doesn't contain apt configuration"
             }
             try {
                 for (File dependency : project.configurations.getByName("provided").resolve()) {
-                    mAptDependencies.get(project).
-                            add(Dependency.fromLocalFile(mRootProject.projectDir, dependency))
+                    mAptDependencies.get(project).add(Dependency.fromLocalFile(mRootProject.projectDir, dependency))
                 }
             } catch (Exception e) {
                 logger.info "${project.name} doesn't contain provided configuration"
@@ -139,6 +132,8 @@ public final class DependencyExtractor {
         }
     }
 
+    // 获取compile依赖
+    // 如何处理呢?
     private extractCompileDependencies() {
         for (Project project : mRootProject.subprojects) {
             ProjectHelper.ProjectType type = ProjectHelper.getSubProjectType(project)
@@ -164,8 +159,34 @@ public final class DependencyExtractor {
         }
     }
 
+    // 如何获取: flavor对应的configuration呢?
+//    dependencies {
+//        // 本地的jars
+//        compile fileTree(dir: 'libs', include: ['*.jar'])
+//
+//        // 测试
+//        testCompile 'junit:junit:4.12'
+//
+//        // 引用外部包
+//        compile 'com.android.support:appcompat-v7:23.1.1'
+//        compile 'com.android.support:support-v4:23.1.1'
+//
+//        // 本项目中的lib的引用
+//        compile project(":libraries:javalibrary")
+//        compile project(":libraries:emptylibrary")
+//
+//        // 带有: configuration的lib
+//        releaseCompile project(path: ':libraries:common', configuration: 'paidRelease')
+//        debugCompile project(path: ':libraries:common', configuration: 'freeDebug')
+//
+//        // incompatible with BUCK
+//        //apt "org.androidannotations:androidannotations:3.3.2"
+//        //compile "org.androidannotations:androidannotations-api:3.3.2"
+//    }
+
     private void extractOneConfiguration(Project project, String flavor, String configuration) {
         mFullDependencies.get(project).put(flavor, new HashSet<Dependency>())
+
         mergeDependencies(mRootProject, mFullDependencies.get(project).get(flavor),
                 extractFinalDependencyFiles(project, configuration),
                 extractAndFlatResolvedDependencies(project, configuration))
@@ -267,5 +288,18 @@ public final class DependencyExtractor {
             logger.debug ">>>>>"
         }
         logger.debug "############################ mAnnotationProcessors end ##########################"
+    }
+
+
+    Map<Project, Map<String, Set<Dependency>>> getFullDependencies() {
+        return mFullDependencies
+    }
+
+    Map<Project, Set<Dependency>> getAptDependencies() {
+        return mAptDependencies
+    }
+
+    Map<Project, Set<String>> getAnnotationProcessors() {
+        return mAnnotationProcessors
     }
 }

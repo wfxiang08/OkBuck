@@ -41,9 +41,13 @@ import org.gradle.api.Task
  * */
 class OkBuckGradlePlugin implements Plugin<Project> {
 
+    // 如何定制一个 Gradle Plugin呢?
     void apply(Project project) {
+
+        // 定义: okbuck需要哪些属性
         project.extensions.create("okbuck", OkBuckExtension)
 
+        // 添加 task
         Task okBuckClean = project.task('okbuckClean')
         okBuckClean << {
             if (project.okbuck.overwrite) {
@@ -57,6 +61,8 @@ class OkBuckGradlePlugin implements Plugin<Project> {
                 okBuckScriptsDir.deleteDir()
                 File dotBuckConfig = new File("${project.projectDir.absolutePath}/.buckconfig")
                 dotBuckConfig.delete()
+
+                // Subprojects如何定义的呢?
                 project.subprojects { prj ->
                     File buck = new File("${prj.projectDir.absolutePath}/BUCK")
                     buck.delete()
@@ -64,12 +70,18 @@ class OkBuckGradlePlugin implements Plugin<Project> {
             }
         }
 
+        // 调用 clean时，则一并清理 buck
         project.getTasksByName("clean", true).each { task ->
             task.dependsOn(okBuckClean)
         }
 
+        // 添加 okbuck的任务
         Task okBuck = project.task('okbuck')
+
+        // okBuck依赖: bundleRelease & jar
         dependsOnBuild(okBuck, project)
+
+        // 每次: okbuck的代价也不小
         okBuck.dependsOn(okBuckClean)
         okBuck << {
             applyWithoutBuildVariant(project)
@@ -86,6 +98,7 @@ class OkBuckGradlePlugin implements Plugin<Project> {
     }
 
     private static applyWithoutBuildVariant(Project project) {
+        // 参考文档: http://blog.piasy.com/OkBuck/
         boolean overwrite = project.okbuck.overwrite
         if (overwrite) {
             println "==========>> overwrite mode is toggle on <<=========="
@@ -98,6 +111,14 @@ class OkBuckGradlePlugin implements Plugin<Project> {
                     ".buckconfig already exist, set overwrite property to true to overwrite existing file.")
         } else {
             PrintStream printer = new PrintStream(dotBuckConfig)
+
+            // .buckconfig 保存什么文件呢?
+//            okbuck {
+//                buildToolVersion "23.0.1"
+//                target "android-23"
+//                overwrite true
+//                checkDepConflict true
+//            flavorFilter is a map, used for controlling OkBuck only generate BUCK files for flavors you need, default is empty, which will generate all flavors BUCK file
             new DotBuckConfigGenerator(project, (String) project.okbuck.buildToolVersion,
                     (String) project.okbuck.target,
                     (Map<String, List<String>>) project.okbuck.flavorFilter)
@@ -115,6 +136,8 @@ class OkBuckGradlePlugin implements Plugin<Project> {
         PrintStream printer = new PrintStream(manifestPyFile)
         new GenManifestPyFile().print(printer)
         printer.close()
+
+        // 这个BUCK文件作用?
         File scriptBUCKFile = new File("${scriptsDir.absolutePath}/BUCK")
         printer = new PrintStream(scriptBUCKFile)
         new ScriptBUCKFile().print(printer)
@@ -126,6 +149,8 @@ class OkBuckGradlePlugin implements Plugin<Project> {
             throw new IllegalStateException(
                     ".okbuck dir already exist, set overwrite property to true to overwrite existing file.")
         } else {
+
+            // 如何做依赖分析呢?
             DependencyAnalyzer dependencyAnalyzer = new DependencyAnalyzer(project, okBuckDir,
                     (boolean) project.okbuck.checkDepConflict, new DependencyExtractor(project))
             dependencyAnalyzer.analyse()
@@ -142,6 +167,8 @@ class OkBuckGradlePlugin implements Plugin<Project> {
                     (Map<String, List<String>>) project.okbuck.flavorFilter,
                     (Map<String, List<String>>) project.okbuck.cpuFilters)
                     .generate()
+
+            // 修改每一个subProject的BUCK文件
             for (Project subProject : buckFiles.keySet()) {
                 File buckFile = new File("${subProject.projectDir.absolutePath}/BUCK")
                 printer = new PrintStream(buckFile)

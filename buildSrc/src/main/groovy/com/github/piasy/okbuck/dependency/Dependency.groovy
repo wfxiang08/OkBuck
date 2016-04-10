@@ -38,50 +38,6 @@ public abstract class Dependency {
 
     protected static Logger logger = Logging.getLogger(Dependency)
 
-    public static Dependency fromLocalFile(File rootProjectDir, File localFile) {
-        DependencyType type
-        if (localFile.name.endsWith(".jar")) {
-            type = DependencyType.LocalJarDependency
-        } else if (localFile.name.endsWith(".aar")) {
-            type = DependencyType.LocalAarDependency
-        } else {
-            throw new IllegalArgumentException("Bad file extension ${localFile.name}")
-        }
-        return new LocalDependency(type, localFile, rootProjectDir)
-    }
-
-    public static Dependency fromMavenDependency(
-            File rootProjectDir, File localFile, ResolvedDependency dependency
-    ) {
-        DependencyType type
-        if (localFile.name.endsWith(".jar")) {
-            type = DependencyType.MavenJarDependency
-        } else if (localFile.name.endsWith(".aar")) {
-            type = DependencyType.MavenAarDependency
-        } else {
-            throw new IllegalArgumentException("Bad file extension ${localFile.name}")
-        }
-        return new MavenDependency(type, localFile, rootProjectDir, dependency)
-    }
-
-    public static Dependency fromModule(
-            File rootProjectDir, File localFile, Project module, String flavor, String variant
-    ) {
-        if (localFile.name.endsWith(".jar")) {
-            return ModuleDependency.forJar(localFile, rootProjectDir, module)
-        } else if (localFile.name.endsWith(".aar")) {
-            if (StringUtil.isEmpty(flavor)) {
-                return ModuleDependency.forAarWithoutFlavor(
-                        localFile, rootProjectDir, module, variant)
-            } else {
-                return ModuleDependency.forAarWithFlavor(
-                        localFile, rootProjectDir, module, flavor, variant)
-            }
-        } else {
-            throw new IllegalArgumentException("Bad file extension ${localFile.name}")
-        }
-    }
-
     /**
      * dependency type enum.
      * */
@@ -150,4 +106,55 @@ public abstract class Dependency {
     public abstract void copyTo()
 
     public abstract Dependency defensiveCopy()
+
+
+    // 来自本地文件:
+    //      jar, aar
+    public static Dependency fromLocalFile(File rootProjectDir, File localFile) {
+        DependencyType type
+        if (localFile.name.endsWith(".jar")) {
+            type = DependencyType.LocalJarDependency
+        } else if (localFile.name.endsWith(".aar")) {
+            type = DependencyType.LocalAarDependency
+        } else {
+            throw new IllegalArgumentException("Bad file extension ${localFile.name}")
+        }
+        return new LocalDependency(type, localFile, rootProjectDir)
+    }
+
+    // 来自: Maven
+    //      jar, aar
+    //      dependency
+    public static Dependency fromMavenDependency(
+            File rootProjectDir, File localFile, ResolvedDependency dependency
+    ) {
+        DependencyType type
+        if (localFile.name.endsWith(".jar")) {
+            type = DependencyType.MavenJarDependency
+        } else if (localFile.name.endsWith(".aar")) {
+            type = DependencyType.MavenAarDependency
+        } else {
+            throw new IllegalArgumentException("Bad file extension ${localFile.name}")
+        }
+        return new MavenDependency(type, localFile, rootProjectDir, dependency)
+    }
+
+    // 来自: module
+    //      jar, aar 带有: flavor
+    public static Dependency fromModule(
+            File rootProjectDir, File localFile, Project module, String flavor, String variant
+    ) {
+        if (localFile.name.endsWith(".jar")) {
+            return ModuleDependency.forJar(localFile, rootProjectDir, module)
+        } else if (localFile.name.endsWith(".aar")) {
+            if (StringUtil.isEmpty(flavor)) {
+                return ModuleDependency.forAarWithoutFlavor(localFile, rootProjectDir, module, variant)
+            } else {
+                return ModuleDependency.forAarWithFlavor(localFile, rootProjectDir, module, flavor, variant)
+            }
+        } else {
+            throw new IllegalArgumentException("Bad file extension ${localFile.name}")
+        }
+    }
+
 }

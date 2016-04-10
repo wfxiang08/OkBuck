@@ -49,9 +49,14 @@ public abstract class BuckRule extends AbstractBuckRule {
      * */
     @Override
     public final void print(PrintStream printer) {
+        // 打印类型和name
         printer.println("${mRuleType}(")
         printer.println("\tname = '${mName}',")
+
+        // 打印Detail
         printDetail(printer)
+
+        // 打印: visibility
         if (!mVisibility.empty) {
             printer.println("\tvisibility = [")
             for (String visibility : mVisibility) {

@@ -40,6 +40,7 @@ public final class BUCKFile extends BuckConfigFile {
 
     @Override
     public final void print(PrintStream printer) {
+        // 将所有的RULEs打印到printer中
         for (AbstractBuckRule rule : mRules) {
             rule.print(printer)
         }

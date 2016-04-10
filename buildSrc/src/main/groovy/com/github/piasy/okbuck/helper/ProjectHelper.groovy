@@ -100,10 +100,10 @@ public final class ProjectHelper {
         }
     }
 
+    // 是否存在Flavors
     private static boolean hasFlavor(Project project) {
         try {
-            for (PropertyValue prop :
-                    project.extensions.getByName("android").metaPropertyValues) {
+            for (PropertyValue prop : project.extensions.getByName("android").metaPropertyValues) {
                 if ("productFlavors".equals(prop.name)) {
                     NamedDomainObjectContainer<ProductFlavor> flavors = (NamedDomainObjectContainer<ProductFlavor>) prop.value
                     return !flavors.getAsMap().isEmpty()

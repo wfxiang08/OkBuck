@@ -53,6 +53,7 @@ public final class FileUtil {
         String rootPath = rootDir.absolutePath
         String path = dir.absolutePath
         if (path.indexOf(rootPath) == 0) {
+            // 获取相对路径
             return path.substring(rootPath.length())
         } else {
             throw new IllegalArgumentException("sub dir ${dir.name} must " +

@@ -75,7 +75,9 @@ public final class AndroidBinaryRule extends BuckRuleWithDeps {
         super("android_binary", name, visibility, deps)
 
         checkStringNotEmpty(manifest, "AndroidBinaryRule manifest must be non-null.")
-        mManifest = manifest
+        mManifest = manifest  // https://buckbuild.com/rule/android_binary.html
+        // Relative path to the Android manifest for the APK. The common case is that the manifest will be in the same directory as the rule, in which case this will simply be 'AndroidManifest.xml', but it can also reference an android_manifest rule.
+
         checkStringNotEmpty(keystore, "AndroidBinaryRule keystore must be non-null.")
         mKeystore = keystore
         mEnableMultiDex = true
@@ -84,6 +86,7 @@ public final class AndroidBinaryRule extends BuckRuleWithDeps {
         mPrimaryDexPatterns = primaryDexPatterns
         mExopackage = exopackage
         mCpuFilters = cpuFilters
+
         mCupFiltersMap = new HashMap<>()
         mCupFiltersMap.put("armeabi", "ARM")
         mCupFiltersMap.put("armeabi-v7a", "ARMV7")

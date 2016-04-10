@@ -55,6 +55,7 @@ public abstract class FileDependency extends Dependency {
         return mDstDir
     }
 
+    // 获取表转化的名字
     @Override
     String getSrcCanonicalName() {
         if (mDstDir == null) {
@@ -65,9 +66,12 @@ public abstract class FileDependency extends Dependency {
 
     private String getBuckDepName() {
         switch (getType()) {
+            // 不管来自: Local还是Maven, 最终都在本地
             case DependencyType.LocalJarDependency:
             case DependencyType.MavenJarDependency:
                 return ":jar__${mLocalFile.name}"
+
+            // AAR
             case DependencyType.LocalAarDependency:
             case DependencyType.MavenAarDependency:
                 return ":aar__${mLocalFile.name}"
@@ -76,6 +80,7 @@ public abstract class FileDependency extends Dependency {
         }
     }
 
+    // 获取资源的路径
     @Override
     List<String> getResCanonicalNames() {
         switch (getType()) {
@@ -84,14 +89,13 @@ public abstract class FileDependency extends Dependency {
                 return Collections.emptyList()
             case DependencyType.LocalAarDependency:
             case DependencyType.MavenAarDependency:
-                return Collections.singletonList(
-                        "/${FileUtil.getDirPathDiff(mRootProjectDir, mDstDir)}" +
-                                ":aar__${mLocalFile.name}")
+                return Collections.singletonList("/${FileUtil.getDirPathDiff(mRootProjectDir, mDstDir)}" + ":aar__${mLocalFile.name}")
             default:
                 throw new IllegalArgumentException("bad type of ${mLocalFile.name}")
         }
     }
 
+    // 把当前的文件拷贝到: DestDir中，保持文件名不变
     @Override
     void copyTo() {
         if (!mDstDir.exists()) {

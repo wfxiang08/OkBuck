@@ -49,6 +49,7 @@ public final class MavenDependency extends FileDependency {
             case DependencyType.MavenJarDependency:
             case DependencyType.MavenAarDependency:
                 MavenDependency that = (MavenDependency) dependency
+                // moduleGroup + moduleName相同才算一样
                 return StringUtil.areEquals(this.mResolvedDependency.moduleGroup,
                         that.mResolvedDependency.moduleGroup) &&
                         StringUtil.areEquals(this.mResolvedDependency.moduleName,

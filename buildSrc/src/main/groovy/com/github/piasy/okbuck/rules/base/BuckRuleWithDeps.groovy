@@ -43,6 +43,8 @@ public abstract class BuckRuleWithDeps extends BuckRule {
     @Override
     protected final void printDetail(PrintStream printer) {
         printSpecificPart(printer)
+
+        // 打印: Deps
         if (!mDeps.empty) {
             printer.println("\tdeps = [")
             for (String dep : mDeps) {
